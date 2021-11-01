@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translator</title>
+<style>
+    
+    textarea {
+    border-radius: 30px;
+    }
+    .result {
+        justify-content: center;
+    }
+</style>
+<script>
+    var words = [
+    ["System.out.print(\"Hello World!\")","console.log('Hello World!')"],
+    ["function(a){var c = Number(a)+1}","Int(int a) {int c= a+1; return c;}"],
+    ["let a = 3;","int a = 3;"],
+    ["bool a = true;","Boolean a = true;"]
+];
+
+function getlang(){
+    var select = document.getElementById("language");
+    return select.options[select.selectedIndex].value*1;
+}
+function search(keyword){
+    for(var x = 0; x < words.length; x++){
+        var lang = getlang()
+        if(words[x][lang] == keyword) return words[x][(lang+1) % 2]
+    }
+    return false
+}
+function update(e){
+    var source = document.getElementById('source').value;
+    result = search(source);
+    if(result !== false)
+        document.getElementById('result').innerHTML = result;
+}
+document.addEventListener("input",function(e){
+    if(e.target.id == "source"){
+        update()
+    }
+});
+document.addEventListener("change",function(e){
+    if(e.target.id == "language"){
+        update()
+    }
+});
+
+</script>
+
+</head>
+<body>
+    
+    <textarea id = "source"></textarea>
+        <select id = "language">
+            <option value = 0>Java -> JS</option>
+            <option value = 1>JS -> Java</option>
+        </select>
+        <div id = "result"></div>
+    
+</body>
+</html>
